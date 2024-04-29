@@ -1,42 +1,12 @@
 from app import flask_app
+from flask import request
+from app.model.project import CreateProjectRequest,CreateProjectResponse
+from app.business_layer import project_service
 
-
-
-
-
-
-
-
-
-
-
-# import requests
-# import shutil
-
-# def generate_spring_boot_project(project_type, language,  group_id, artifact_id, dependencies, java_version='11', packaging='jar'):
-#     # Define the URL for Spring Initializr API
-#     url = 'https://start.spring.io/starter.zip'
-
-#     # Define payload for POST request
-#     payload = {
-#         'type': project_type,
-#         'language': language,
-#         'groupId': group_id,
-#         'artifactId': artifact_id,
-#         'javaVersion': java_version,
-#         'packaging': packaging,
-#         'dependencies': dependencies
-#     }
-
-#     # Send POST request to generate the project
-#     response = requests.post(url, data=payload, stream=True)
-
-#     # Check if request was successful
-#     if response.status_code == 200:
-#         # Save the generated ZIP file
-#         with open(f'{artifact_id}.zip', 'wb') as zip_file:
-#             response.raw.decode_content = True
-#             shutil.copyfileobj(response.raw, zip_file)
-#         print(f'Successfully generated project: {artifact_id}.zip')
-#     else:
-#         print('Failed to generate project.')
+@flask_app.route("/api/create_project",methods=["POST"])
+def create_project():
+    request_json = request.get_json()
+    create_project_request :CreateProjectRequest = CreateProjectRequest.get_object_from_json(request_json)
+    project_response = project_service.create_project(create_project_request)
+    response = project_response.get_json()
+    return response
