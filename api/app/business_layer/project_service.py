@@ -25,6 +25,7 @@ def create_project(req:CreateProjectRequest):
         result.Status = constants.Status.Success
         result.ErrorCode = constants.ErrorCode.Success
         result.message = f'Successfully generated project: {req.artifactId}.zip'
+        result.projectDownloadUrl = f'{path}'
     except Exception as ex:
         result.Status = constants.Status.Failure
         result.ErrorCode = constants.ErrorCode.Failure

@@ -40,9 +40,11 @@ class CreateProjectResponse(ResponseBase):
     def __init__(self, error_code=None, status=None) -> None:
         super().__init__(error_code, status)
         self.message = None 
+        self.projectDownloadUrl = None
         
     def get_json(self):
         json_data = super().get_json()
         json_data["message"] = self.message
+        json_data["projectDownloadUrl"] = self.projectDownloadUrl
         return json_data 
     
